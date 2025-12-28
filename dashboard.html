@@ -1,0 +1,25 @@
+<h1>Dashboard</h1>
+<h2>All Courses</h2>
+<ul>
+    {% for course in courses %}
+        <li>
+            {{ course.title }} - ₹{{ course.price }} - {{ course.timing }}
+            <a href="{{ course.meeting_link }}" target="_blank">Join Link</a>
+            <a href="{{ url_for('book_course', course_id=course.id) }}">Book</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Your Bookings</h2>
+<ul>
+    {% for b in bookings %}
+        <li>
+            {{ b.course.title }} - {{ b.status }} - Paid: {{ b.paid }}
+            {% if not b.paid %}
+                <a href="{{ url_for('pay_course', booking_id=b.id) }}">Pay</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('logout') }}">Logout</a>
