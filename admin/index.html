@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - EduLearn</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Admin Panel</h1>
+            </div>
+            <ul class="nav-links">
+                <li><span id="user-name"></span></li>
+                <li><a href="../index.html">Back to Site</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="admin-panel">
+        <div class="container">
+            <h2>Manage Courses</h2>
+            <div class="add-course">
+                <h3>Add New Course</h3>
+                <form id="addCourseForm">
+                    <input type="text" id="courseTitle" placeholder="Course Title" required>
+                    <textarea id="courseDescription" placeholder="Course Description" required></textarea>
+                    <input type="text" id="courseInstructor" placeholder="Instructor" required>
+                    <input type="number" id="coursePrice" placeholder="Price" required>
+                    <input type="text" id="courseImage" placeholder="Image URL (optional)">
+                    <input type="url" id="courseGoogleForm" placeholder="Google Form Link (optional)">
+                    <button type="submit" class="btn">Add Course</button>
+                </form>
+            </div>
+            <div class="course-list">
+                <h3>Existing Courses</h3>
+                <div id="adminCourseList">
+                    <!-- Courses will be loaded here -->
+                </div>
+                <div id="editForm" style="display: none;">
+                    <h3>Edit Course</h3>
+                    <form id="editCourseForm">
+                        <input type="hidden" id="editCourseId">
+                        <input type="text" id="editCourseTitle" placeholder="Course Title" required>
+                        <textarea id="editCourseDescription" placeholder="Course Description" required></textarea>
+                        <input type="text" id="editCourseInstructor" placeholder="Instructor" required>
+                        <input type="number" id="editCoursePrice" placeholder="Price" required>
+                        <input type="text" id="editCourseImage" placeholder="Image URL" required>
+                        <input type="url" id="editGoogleForm" placeholder="Google Form Link (optional)">
+                        <button type="submit" class="btn">Update Course</button>
+                        <button type="button" id="cancelEdit" class="btn">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>
