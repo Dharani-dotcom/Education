@@ -13,19 +13,19 @@ function initializeCourses() {
         const defaultCourses = [
             {
                 id: 1,
-                title: 'Introduction to Programming',
-                description: 'Learn the basics of programming with Python.',
-                instructor: 'John Doe',
+                title: 'AI -Future?',
+                description: 'Learn what will be the future of developers.',
+                instructor: 'Gowthan sevathan - AI Research scientist -IBM',
                 price: 99,
                 image: 'images/course-placeholder.jpg',
-                googleFormLink: null
+                googleFormLink: https://docs.google.com/forms/d/e/1FAIpQLSdAEze1SfSo3G8coG7-_g5elkcVfvxz7IbkiY2omfggXUpwPA/viewform?usp=dialog
             },
             {
                 id: 2,
                 title: 'Web Development Fundamentals',
-                description: 'Build modern websites with HTML, CSS, and JavaScript.',
-                instructor: 'Jane Smith',
-                price: 149,
+                description: 'Build modern websites with React  HTML, CSS, and JavaScript.',
+                instructor: 'Guru',
+                price: 119,
                 image: 'images/course-placeholder.jpg',
                 googleFormLink: null
             },
@@ -33,7 +33,7 @@ function initializeCourses() {
                 id: 3,
                 title: 'Data Science Essentials',
                 description: 'Explore data analysis and machine learning basics.',
-                instructor: 'Bob Johnson',
+                instructor: 'ittyavira C Abhaham',
                 price: 199,
                 image: 'images/course-placeholder.jpg',
                 googleFormLink: null
@@ -81,31 +81,31 @@ function loadCourses() {
 function getDefaultCourses() {
     return [
         {
-            id: 1,
-            title: 'Introduction to Programming',
-            description: 'Learn the basics of programming with Python.',
-            instructor: 'John Doe',
-            price: 99,
-            image: 'images/course-placeholder.jpg',
-            googleFormLink: null
+           id: 1,
+                title: 'AI -Future?',
+                description: 'Learn what will be the future of developers.',
+                instructor: 'Gowthan sevathan - AI Research scientist -IBM',
+                price: 99,
+                image: 'images/course-placeholder.jpg',
+                googleFormLink: null
         },
         {
-            id: 2,
-            title: 'Web Development Fundamentals',
-            description: 'Build modern websites with HTML, CSS, and JavaScript.',
-            instructor: 'Jane Smith',
-            price: 149,
-            image: 'images/course-placeholder.jpg',
-            googleFormLink: null
+          id: 2,
+                title: 'Web Development Fundamentals',
+                description: 'Build modern websites with React  HTML, CSS, and JavaScript.',
+                instructor: 'Guru',
+                price: 119,
+                image: 'images/course-placeholder.jpg',
+                googleFormLink: null
         },
         {
-            id: 3,
-            title: 'Data Science Essentials',
-            description: 'Explore data analysis and machine learning basics.',
-            instructor: 'Bob Johnson',
-            price: 199,
-            image: 'images/course-placeholder.jpg',
-            googleFormLink: null
+           id: 3,
+                title: 'Data Science Essentials',
+                description: 'Explore data analysis and machine learning basics.',
+                instructor: 'ittyavira C Abhaham',
+                price: 199,
+                image: 'images/course-placeholder.jpg',
+                googleFormLink: null
         }
     ];
 }
