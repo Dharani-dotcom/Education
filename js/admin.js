@@ -33,8 +33,8 @@ function loadCoursesForAdmin() {
                 <p>Google Form: ${course.googleFormLink || 'Not set'}</p>
             </div>
             <div>
-                <button class="edit-btn" data-id="${course.id}">Edit</button>
-                <button class="delete-btn" data-id="${course.id}">Delete</button>
+                <button class="edit-btn" data-id="Rs{course.id}">Edit</button>
+                <button class="delete-btn" data-id="Rs{course.id}">Delete</button>
             </div>
         `;
         adminCourseList.appendChild(courseItem);
