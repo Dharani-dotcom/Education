@@ -24,7 +24,13 @@ function handleLogin(e) {
     const user = users.find(u => u.email === email && u.password === password);
 
     if (user) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        // ✅ Save loginTime so session can expire after 7 days
+        const sessionUser = {
+            ...user,
+            loginTime: Date.now()
+        };
+        localStorage.setItem('currentUser', JSON.stringify(sessionUser));
+
         if (user.role === 'admin') {
             window.location.href = 'admin/index.html';
         } else {
@@ -60,7 +66,8 @@ function handleRegister(e) {
         name,
         email,
         password,
-        role: 'user'
+        role: 'user',
+        loginTime: Date.now() // ✅ Save loginTime on register too
     };
 
     users.push(newUser);
@@ -73,11 +80,30 @@ function handleRegister(e) {
 
 function checkAuthStatus() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser && window.location.pathname.includes('admin') && currentUser.role !== 'admin') {
-        window.location.href = '../index.html';
-    }
-    if (currentUser && (window.location.pathname.includes('login.html') || window.location.pathname.includes('register.html'))) {
-        window.location.href = 'index.html';
+
+    if (currentUser) {
+        // ✅ Check if session has expired (7 days)
+        const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+        const isExpired = !currentUser.loginTime || (Date.now() - currentUser.loginTime > SEVEN_DAYS);
+
+        if (isExpired) {
+            localStorage.removeItem('currentUser');
+            // If on a protected page, redirect to login
+            if (!window.location.pathname.includes('login.html') && !window.location.pathname.includes('register.html')) {
+                window.location.href = 'login.html';
+            }
+            return;
+        }
+
+        // Prevent admin accessing user pages and vice versa
+        if (window.location.pathname.includes('admin') && currentUser.role !== 'admin') {
+            window.location.href = '../index.html';
+        }
+
+        // ✅ If already logged in, skip login/register pages
+        if (window.location.pathname.includes('login.html') || window.location.pathname.includes('register.html')) {
+            window.location.href = 'index.html';
+        }
     }
 }
 
