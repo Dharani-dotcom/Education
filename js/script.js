@@ -1,4 +1,5 @@
-// ✅ Wait for DOM to be ready before running anything
+// script.js - Main page functionality
+
 document.addEventListener('DOMContentLoaded', function () {
     initializeCourses();
     loadCourses();
@@ -8,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initializeCourses() {
-    // ✅ Always reset courses so latest data is used (remove stale localStorage data)
     const defaultCourses = [
         {
             id: 1,
@@ -44,20 +44,16 @@ function initializeCourses() {
 function loadCourses() {
     const courses = JSON.parse(localStorage.getItem('courses'));
 
-    // ✅ Guard: make sure the element exists before using it
     const courseGrid = document.getElementById('courseGrid');
-    if (!courseGrid) {
-        console.warn('courseGrid element not found on this page.');
-        return;
-    }
+    if (!courseGrid) return;
 
     courseGrid.innerHTML = '';
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = getValidUser();
 
     courses.forEach(course => {
         const courseCard = document.createElement('div');
-        courseCard.className = 'course-card'; // ✅ matches CSS selector
+        courseCard.className = 'course-card';
 
         const isEnrolled = currentUser &&
             currentUser.enrolledCourses &&
@@ -74,7 +70,7 @@ function loadCourses() {
             <div class="course-info">
                 <h3>${course.title}</h3>
                 <p>${course.description}</p>
-                <p class="price">₹${course.price}</p>
+                <p class="price">&#8377;${course.price}</p>
                 <p><strong>Instructor:</strong> ${course.instructor}</p>
                 ${currentUser
                     ? `<button class="enroll-btn ${buttonClass}" data-id="${course.id}">${buttonText}</button>`
@@ -86,7 +82,6 @@ function loadCourses() {
         courseGrid.appendChild(courseCard);
     });
 
-    // ✅ Attach enroll listeners after cards are in the DOM
     document.querySelectorAll('.enroll-btn').forEach(btn => {
         btn.addEventListener('click', enrollInCourse);
     });
@@ -114,15 +109,30 @@ function setupContactForm() {
     });
 }
 
-function checkLoginStatus() {
+// ✅ Returns user only if session is still valid (within 7 days)
+function getValidUser() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return null;
+
+    const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+    const isExpired = !currentUser.loginTime || (Date.now() - currentUser.loginTime > SEVEN_DAYS);
+
+    if (isExpired) {
+        localStorage.removeItem('currentUser');
+        return null;
+    }
+
+    return currentUser;
+}
+
+function checkLoginStatus() {
+    const currentUser = getValidUser();
 
     const loginLink = document.getElementById('login-link');
     const registerLink = document.getElementById('register-link');
     const userInfo = document.getElementById('user-info');
     const userName = document.getElementById('user-name');
 
-    // ✅ Guard each element before touching it
     if (currentUser) {
         if (loginLink) loginLink.style.display = 'none';
         if (registerLink) registerLink.style.display = 'none';
@@ -151,13 +161,12 @@ function enrollInCourse(e) {
 
     if (!course) return;
 
-    // ✅ Open Google Form in new tab if linked
     if (course.googleFormLink) {
         window.open(course.googleFormLink, '_blank');
         return;
     }
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = getValidUser();
 
     if (!currentUser) {
         alert('Please login first!');
@@ -169,25 +178,22 @@ function enrollInCourse(e) {
     }
 
     if (currentUser.enrolledCourses.includes(courseId)) {
-        // Toggle off: unenroll
         currentUser.enrolledCourses = currentUser.enrolledCourses.filter(id => id !== courseId);
         e.target.textContent = 'Enroll';
         e.target.classList.remove('enrolled');
     } else {
-        // Enroll
         currentUser.enrolledCourses.push(courseId);
         e.target.textContent = 'Enrolled';
         e.target.classList.add('enrolled');
     }
 
-    // ✅ Persist updated user to localStorage
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-    // ✅ Also update the users array so enrollment survives logout/login
+    // ✅ Also update users array so enrollment survives logout/login
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const userIndex = users.findIndex(u => u.email === currentUser.email);
     if (userIndex !== -1) {
-        users[userIndex] = currentUser;
+        users[userIndex].enrolledCourses = currentUser.enrolledCourses;
         localStorage.setItem('users', JSON.stringify(users));
     }
 }
