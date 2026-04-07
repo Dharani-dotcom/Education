@@ -74,7 +74,7 @@ function loadCourses() {
             <div class="course-info">
                 <h3>${course.title}</h3>
                 <p>${course.description}</p>
-                <p class="price">$${course.price}</p>
+                <p class="price">₹${course.price}</p>
                 <p><strong>Instructor:</strong> ${course.instructor}</p>
                 ${currentUser
                     ? `<button class="enroll-btn ${buttonClass}" data-id="${course.id}">${buttonText}</button>`
